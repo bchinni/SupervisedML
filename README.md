@@ -1,17 +1,28 @@
 # Supervised Machine Learning Complete Cycle
 
-Machine learning pipeline for binary classification tasks with automated feature selection, hyperparameter optimization, and model explainability.
+A comprehensive machine learning pipeline for binary classification tasks with automated feature selection, hyperparameter optimization, and model explainability.
 
-Automated Data Preprocessing: Handles missing values, data cleaning, and type conversions
-Iterative Imputation: Uses decision tree-based imputation for missing data
-Feature Selection: Boruta-SHAP algorithm for robust feature selection
-Multiple Models: Trains 6 different classifiers (LR, SVM, RF, XGBoost, LightGBM, Neural Network)
-Bayesian Optimization: Automated hyperparameter tuning using scikit-optimize
-Evaluation: AUC, calibration, discrimination metrics, and permutation tests
-Explainability: SHAP values for feature importance and instance-level explanations
+## Features
 
+- **Automated Data Preprocessing**: Handles missing values, data cleaning, and type conversions
+- **Iterative Imputation**: Uses decision tree-based imputation for missing data
+- **Feature Selection**: Boruta-SHAP algorithm for robust feature selection
+- **Multiple Models**: Trains 6 different classifiers (LR, SVM, RF, XGBoost, LightGBM, Neural Network)
+- **Bayesian Optimization**: Automated hyperparameter tuning using scikit-optimize
+- **Comprehensive Evaluation**: AUC, calibration, discrimination metrics, and permutation tests
+- **Model Explainability**: SHAP values for feature importance and instance-level explanations
 
-# Edit Configuration in src folder in utils file to customize
+## Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+## Configuration
+
+Edit the configuration in `src/utils.py` to customize pipeline parameters:
+
+```python
 config = {
     'random_state': 42,           # Random seed
     'test_size': 0.2,             # Test set proportion
@@ -24,9 +35,19 @@ config = {
     'n_permutations': 1000,       # Permutation test iterations
     'output_dir': 'output'        # Output directory
 }
+```
 
-# PipelineExecutionExample
+## Quick Start
 
+### Option 1: Run Complete Pipeline
+
+```bash
+python main.py
+```
+
+### Option 2: Use Individual Components
+
+```python
 from src.preprocessing import clean_dataframe, drop_high_missing_vars
 from src.imputation import DataImputer
 from src.feature_selection import BorutaFeatureSelector
@@ -48,47 +69,137 @@ X_selected = selector.fit_transform(X_train, y_train)
 # Train models
 trainer = ModelTrainer(n_iter=50, cv=5)
 results = trainer.train_all_models(X_train, y_train)
+```
 
+## Output Files
 
-# Output Files
-After running the pipeline, following files were generated in corresponding folders within output folder.
-#Models (output/models/)
-imputer.pkl - Fitted imputer
-scaler.pkl - Fitted feature scaler
-model_lr.pkl, model_xgb.pkl, etc. - Trained models
+After running the pipeline, the following files are generated:
 
+### Models (`output/models/`)
+- `imputer.pkl` - Fitted imputer
+- `scaler.pkl` - Fitted feature scaler
+- `model_lr.pkl`, `model_xgb.pkl`, etc. - Trained models
 
-# Results (output/results/)
-evaluation_results.xlsx - Comprehensive metrics for all models
-selected_features.xlsx - Features selected by Boruta
-missingness_report.xlsx - Missing data analysis
+### Results (`output/results/`)
+- `evaluation_results.xlsx` - Comprehensive metrics for all models
+- `selected_features.xlsx` - Features selected by Boruta
+- `missingness_report.xlsx` - Missing data analysis
 
+### Plots (`output/plots/`)
+- `roc_curves_test.png` - ROC curves for all models
 
-# Plots (output/plots/)
-roc_curves_test.png - ROC curves for all models
+### SHAP Analysis (`output/shap/`)
+- `shap_bar_xgboost.png` - Feature importance bar plot
+- `shap_beeswarm_xgboost.png` - Feature effect beeswarm plot
+- `feature_importance_xgboost.csv` - Detailed feature importance
+- `explainer_xgboost.pkl` - Saved SHAP explainer
 
+## 🤖 Models Trained
 
-# SHAP (output/shap/)
-shap_bar_xgboost.png - Feature importance bar plot
-shap_beeswarm_xgboost.png - Feature effect beeswarm plot
-feature_importance_xgboost.csv - Detailed feature importance
-explainer_xgboost.pkl - Saved SHAP explainer
+All models use **Bayesian hyperparameter optimization** for best performance:
 
+| Model | Description |
+|-------|-------------|
+| **Logistic Regression** | Linear baseline model |
+| **Support Vector Machine (SVM)** | Non-linear kernel methods |
+| **Random Forest** | Ensemble of decision trees |
+| **XGBoost** | Gradient boosting with regularization |
+| **LightGBM** | Fast gradient boosting |
+| **Neural Network** | Multi-layer perceptron |
 
-# Models Trained
-Logistic Regression - Linear baseline model
-Support Vector Machine (SVM) - Non-linear kernel methods
-Random Forest - Ensemble of decision trees
-XGBoost - Gradient boosting with regularization
-LightGBM - Fast gradient boosting
-Neural Network - Multi-layer perceptron
+## Evaluation Metrics
 
+### Discrimination
+- AUC (Area Under the ROC Curve)
+- Discrimination slope
 
-# All models use Bayesian hyperparameter optimization for best performance.
-# Evaluation Metrics
+### Calibration
+- Calibration slope
+- Observed-to-Expected (O/E) ratio
 
-Discrimination: AUC, discrimination slope
-Calibration: Calibration slope, O/E ratio
-Classification: Accuracy, sensitivity, specificity, PPV, NPV
-Statistical: Permutation test p-value, Cohen's kappa
-Visualization: ROC curves, calibration curves, risk distributions
+### Classification Performance
+- Accuracy
+- Sensitivity (Recall)
+- Specificity
+- Positive Predictive Value (PPV/Precision)
+- Negative Predictive Value (NPV)
+
+### Statistical Tests
+- Permutation test p-value
+- Cohen's kappa
+
+### Visualizations
+- ROC curves
+- Calibration curves
+- Risk distributions
+
+## 📁 Project Structure
+
+```
+SupervisedML/
+├── data/                       # Place your data.csv here
+├── src/
+│   ├── __init__.py
+│   ├── preprocessing.py        # Data cleaning, missingness analysis
+│   ├── imputation.py           # IterativeImputer utilities
+│   ├── feature_selection.py    # Boruta-SHAP wrapper
+│   ├── model_training.py       # Model training with Bayesian optimization
+│   ├── evaluation.py           # Metrics, ROC, calibration curves
+│   ├── explainability.py       # SHAP analysis
+│   └── utils.py                # General helpers (I/O, config, scaling)
+├── output/                     # Generated outputs
+│   ├── models/                 # Saved trained models
+│   ├── results/                # CSV/Excel results
+│   ├── plots/                  # Visualization outputs
+│   └── shap/                   # SHAP analysis outputs
+├── main.py                     # Main pipeline script
+├── requirements.txt
+└── README.md
+```
+
+## Usage Examples
+
+### Model Evaluation
+
+```python
+from src.evaluation import ModelEvaluator, plot_roc_curves
+
+evaluator = ModelEvaluator()
+results_df = evaluator.evaluate_multiple_models(
+    models_dict, X_train, y_train, X_test, y_test
+)
+
+plot_roc_curves(models_dict, X_test, y_test, 
+                save_path='roc_curves.png')
+```
+
+### SHAP Explainability
+
+```python
+from src.explainability import SHAPExplainer
+
+explainer = SHAPExplainer(model, X_train)
+explainer.calculate_shap_values(X_test)
+explainer.plot_bar(max_display=15)
+explainer.plot_beeswarm(max_display=15)
+
+# Explain single instance
+instance_explanation = explainer.explain_instance(
+    X_test.iloc[[0]], n_top_features=5
+)
+```
+
+## Tips
+
+1. **Data Format**: Ensure your `data.csv` includes:
+   - An `id` column for sample identifiers
+   - An outcome column (default: `diagnosis`)
+   - Feature columns
+
+2. **Customization**: Modify the configuration in `src/utils.py` before running the pipeline
+
+3. **Model Selection**: Review `evaluation_results.xlsx` to compare model performance
+
+4. **Feature Importance**: Check SHAP outputs to understand feature contributions
+
+**Note**: All models are trained using Bayesian optimization to ensure optimal hyperparameter selection for your specific dataset.
