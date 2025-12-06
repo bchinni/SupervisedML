@@ -94,7 +94,7 @@ After running the pipeline, the following files are generated:
 - `feature_importance_xgboost.csv` - Detailed feature importance
 - `explainer_xgboost.pkl` - Saved SHAP explainer
 
-## 🤖 Models Trained
+## Models Trained
 
 All models use **Bayesian hyperparameter optimization** for best performance:
 
@@ -133,7 +133,7 @@ All models use **Bayesian hyperparameter optimization** for best performance:
 - Calibration curves
 - Risk distributions
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 SupervisedML/
