@@ -1,4 +1,4 @@
-#Supervised Machine Learning Complete Cycle
+# Supervised Machine Learning Complete Cycle
 
 Machine learning pipeline for binary classification tasks with automated feature selection, hyperparameter optimization, and model explainability.
 
@@ -11,7 +11,7 @@ Evaluation: AUC, calibration, discrimination metrics, and permutation tests
 Explainability: SHAP values for feature importance and instance-level explanations
 
 
-#Edit Configuration in src folder in utils file to customize
+# Edit Configuration in src folder in utils file to customize
 config = {
     'random_state': 42,           # Random seed
     'test_size': 0.2,             # Test set proportion
@@ -25,7 +25,7 @@ config = {
     'output_dir': 'output'        # Output directory
 }
 
-#PipelineExecutionExample
+# PipelineExecutionExample
 
 from src.preprocessing import clean_dataframe, drop_high_missing_vars
 from src.imputation import DataImputer
@@ -50,7 +50,7 @@ trainer = ModelTrainer(n_iter=50, cv=5)
 results = trainer.train_all_models(X_train, y_train)
 
 
-#Output Files
+# Output Files
 After running the pipeline, following files were generated in corresponding folders within output folder.
 #Models (output/models/)
 imputer.pkl - Fitted imputer
@@ -58,24 +58,24 @@ scaler.pkl - Fitted feature scaler
 model_lr.pkl, model_xgb.pkl, etc. - Trained models
 
 
-#Results (output/results/)
+# Results (output/results/)
 evaluation_results.xlsx - Comprehensive metrics for all models
 selected_features.xlsx - Features selected by Boruta
 missingness_report.xlsx - Missing data analysis
 
 
-#Plots (output/plots/)
+# Plots (output/plots/)
 roc_curves_test.png - ROC curves for all models
 
 
-#SHAP (output/shap/)
+# SHAP (output/shap/)
 shap_bar_xgboost.png - Feature importance bar plot
 shap_beeswarm_xgboost.png - Feature effect beeswarm plot
 feature_importance_xgboost.csv - Detailed feature importance
 explainer_xgboost.pkl - Saved SHAP explainer
 
 
-#Models Trained
+# Models Trained
 Logistic Regression - Linear baseline model
 Support Vector Machine (SVM) - Non-linear kernel methods
 Random Forest - Ensemble of decision trees
@@ -84,8 +84,8 @@ LightGBM - Fast gradient boosting
 Neural Network - Multi-layer perceptron
 
 
-#All models use Bayesian hyperparameter optimization for best performance.
-#Evaluation Metrics
+# All models use Bayesian hyperparameter optimization for best performance.
+# Evaluation Metrics
 
 Discrimination: AUC, discrimination slope
 Calibration: Calibration slope, O/E ratio
